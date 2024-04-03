@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CHAWUCHA SACCO</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;   
+        background: blue;
+    }
+    .container {
+        text-align: center;
+        margin-top: 50px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 20px;
+        colour: rgb(90, 66, 30);
+    }
+    .hidden {
+        display: none;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>WELCOME TO CHAWUCHA SACCO</h1>
+    <button onclick="showSignUp()">Sign Up</button>
+    <button onclick="showLogin()">Log In</button>
+</div>
+
+<div id="signupForm" class="container hidden">
+    <h2>Sign Up</h2>
+    <input type="text" id="username" placeholder="Username"><br><br>
+    <input type="password" id="password" placeholder="Password"><br><br>
+    <button onclick="saveSignUpDetails()">OK</button>
+</div>
+
+<div id="loginForm" class="container hidden">
+    <h2>Login</h2>
+    <input type="text" id="loginUsername" placeholder="Username"><br><br>
+    <input type="password" id="loginPassword" placeholder="Password"><br><br>
+    <button onclick="login()">OK</button>
+</div>
+
+<div id="dashboard" class="container hidden">
+    <h2>Dashboard</h2>
+    <button onclick="sendMoney()">Send Money</button>
+    <button onclick="checkBalance()">Check Balance</button>
+    <button onclick="logout()">Log Out</button>
+</div>
+
+<div id="sendMoneyForm" class="container hidden">
+    <h2>Send Money</h2>
+    <input type="text" id="bankAccount" placeholder="Bank Account"><br><br>
+    <button onclick="sendMoneyOk()">OK</button>
+</div>
+
+<div id="enterAmountForm" class="container hidden">
+    <h2>Enter Amount</h2>
+    <input type="number" id="amount" placeholder="Amount"><br><br>
+    <button onclick="sendAmount()">OK</button>
+</div>
+
+<div id="checkBalanceForm" class="container hidden">
+    <h2>Current Balance</h2>
+    <p id="currentBalance">1000</p>
+    <button onclick="hideBalance()">Close</button>
+</div>
+
+<script>
+    let userDetails = {};
+
+    function showSignUp() {
+        document.getElementById('signupForm').classList.remove('hidden');
+        document.getElementById('loginForm').classList.add('hidden');
+        document.getElementById('dashboard').classList.add('hidden');
+    }
+
+    function showLogin() {
+        document.getElementById('signupForm').classList.add('hidden');
+        document.getElementById('loginForm').classList.remove('hidden');
+        document.getElementById('dashboard').classList.add('hidden');
+    }
+
+    function saveSignUpDetails() {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        userDetails = { username, password };
+        document.getElementById('signupForm').classList.add('hidden');
+        document.getElementById('dashboard').classList.remove('hidden');
+    }
+
+    function login() {
+        const loginUsername = document.getElementById('loginUsername').value;
+        const loginPassword = document.getElementById('loginPassword').value;
+        if (loginUsername === userDetails.username && loginPassword === userDetails.password) {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+        } else {
+            alert("Invalid username or password.");
+        }
+    }
+
+    function sendMoney() {
+        document.getElementById('dashboard').classList.add('hidden');
+        document.getElementById('sendMoneyForm').classList.remove('hidden');
+    }
+
+    function sendMoneyOk() {
+        document.getElementById('sendMoneyForm').classList.add('hidden');
+        document.getElementById('enterAmountForm').classList.remove('hidden');
+    }
+
+    function sendAmount() {
+        const amount = parseInt(document.getElementById('amount').value);
+        const currentBalance = parseInt(document.getElementById('currentBalance').textContent);
+        if (amount > 0 && amount <= currentBalance) {
+            document.getElementById('enterAmountForm').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+            document.getElementById('currentBalance').textContent = currentBalance - amount;
+            alert("Amount sent successfully!");
+        } else {
+            alert("Invalid amount or insufficient balance.");
+        }
+    }
+
+    function checkBalance() {
+        document.getElementById('dashboard').classList.add('hidden');
+        document.getElementById('checkBalanceForm').classList.remove('hidden');
+    }
+
+    function hideBalance() {
+        document.getElementById('checkBalanceForm').classList.add('hidden');
+        document.getElementById('dashboard').classList.remove('hidden');
+    }
+
+    function logout() {
+        document.getElementById('dashboard').classList.add('hidden');
+        document.getElementById('loginForm').classList.remove('hidden');
+    }
+</script>
+
+</body>
+</html>
